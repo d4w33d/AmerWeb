@@ -14,7 +14,7 @@ class AppInstance extends Microbe_Entity
         [ 'name' => 'created_at',   'type' => Microbe_Entity::T_DATETIME ],
         [ 'name' => 'updated_at',   'type' => Microbe_Entity::T_DATETIME ],
         [ 'name' => 'ping_at',      'type' => Microbe_Entity::T_DATETIME ],
-        [ 'name' => 'uuid',         'type' => Microbe_Entity::T_STRING   ],
+        [ 'name' => 'local_uuid',   'type' => Microbe_Entity::T_STRING   ],
         [ 'name' => 'secret_token', 'type' => Microbe_Entity::T_STRING   ],
     ];
 

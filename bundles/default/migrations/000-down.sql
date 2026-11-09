@@ -1,2 +1,2 @@
 
-DROP TABLE IF EXISTS rocks;
+DROP TABLE IF EXISTS app_instances;

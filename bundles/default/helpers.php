@@ -6,7 +6,7 @@ function get_or_create_app_instance(string $uuid): AppInstance
 
     return (new AppInstance())
         ->setPingAt(db_now())
-        ->setUuid($uuid)
+        ->setLocalUuid($uuid)
         ->generateSecretToken()
         ->save();
 }
