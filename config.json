@@ -1,0 +1,134 @@
+{
+    "app": {
+        "name": "Amer",
+        "version": "1.0.0"
+    },
+    "backup": {
+        "target": "data\/backups",
+        "scopes": [
+            "db",
+            "files"
+        ],
+        "exclude": [
+            "^(.*\/)?BAK-.*\\.zip$",
+            "^data\/",
+            "^\\.git\/"
+        ],
+        "exec": {
+            "before": null,
+            "after": null
+        }
+    },
+    "db": {
+        "dev": {
+            "host": "localhost",
+            "port": 3306,
+            "username": "yjgyymmzz",
+            "password": "dfgdfg",
+            "db_name": "yjgyymmzz"
+        },
+        "prod": {
+            "host": "localhost",
+            "port": 3306,
+            "username": null,
+            "password": null,
+            "db_name": null
+        }
+    },
+    "deploy": {
+        "enabled": false,
+        "log": true,
+        "commands": {
+            "pull": "\/usr\/bin\/git pull",
+            "last_commit": "\/usr\/bin\/git log --name-status HEAD^..HEAD"
+        },
+        "keys": [
+            "zZszKNs36h5EznAsnrav85VZtnXNe6aWS7nK82ZU9ztahS2hPa6r42VDa3d9pf5jefr7wZ94bk9w3gy3bvd4T6vVxKNZvjMV8whU2Rx7bmSQ6wjyvB39Wzd9gnx42FhK",
+            "asxVMqyjVvhzxr2n2z6vQ2aZ5VZ8dzjqpytQbhK3b58k6ETX5h42d57tzg48945aZn2sQZs69jZ4D7M2frsK9jMZrQ4fqmSnz448nGfndagzWhmu4ty7ATJ3966N7a3K",
+            "xsK2h7NuntFjya3rrygk42x77a44dprqr5ad33sBmAFu5Utu2my3y9Pz34hQ37s8zqfvpx3gfK96pwMyaK5TBeT6FVRam2d3Q3Ea2577v4tkgEVvdmfryyeM6Sg9brvS",
+            "5K2HynmKkM8ajh2XEkAaGxKtr7W2a27ERg7kymghztW5nYzfg3hsNQ6Vj2z7zEkF8d5885d73Xh74yqX32j2wU66euExMfqb2j3DdZh9U7wAaz648h5f5JPnvj642K4s",
+            "gdF8euqpTVB2Syg5v7Tbb4GDyKt4ga3jua24t4pmmWnt9K74jfw8a9B4XqbDBTfbkpq5xNY76n937mKSQdyyHux37dqaeazQVdAbhXKxbs3839xqeD6MMPss8AntJnRq",
+            "EV6QQd44gJmkG876sbU7N3vzanrRdsb2v74DXnffdugEyxSxn6eEehKRRVpAXuSBMZ4uZz6aggmjMKd7Xr7s3s7xp5vS4fvuuZ38wgrXWsh6aru4wzNqvN8ue62ZuQ8q",
+            "k6s4j3VQsJ4edvAKBua7r32kRk33Pej4dZNmgNr2NnXDREzsM6M4suXnRs7g9BtYpRknXfKuMa9U2u8a6Hzv5SaYa63YhPqEgn37772V545buyVaYv5nV3A58Rd5E5ek",
+            "Sy8Qmx5y5fk74Fd4My92T8zFeA5v333fyA6gkBt9nrFgKe8wYu5nuJxb3n5ymGuhgXqP4Ng639Fw7f9dKuw25qgz4W3ar7zzApbd9JrA5n929qjpnfaGk655hv8FNpx7"
+        ]
+    },
+    "dev": {
+        "secret_key": "rFEBQf6k26rwq8kYyATru3vtSXFU3b4ej3ZdjEhT4jf9Sv2tfE6durmt929f5nTwh9aSp4vsddD9qJM@SBK3jTD8ez8pgrNm6p3p3zRtKa33h7mf8bzpyvk3Jzs3gTfb"
+    },
+    "emails": {
+        "debug": false,
+        "method": "smtp",
+        "from": {
+            "address": null,
+            "name": "{@app.name}"
+        },
+        "contact": {
+            "address": null,
+            "name": "{@app.name}"
+        },
+        "smtp": {
+            "host": null,
+            "user": null,
+            "password": null,
+            "secure": "tls",
+            "port": 587
+        }
+    },
+    "errors": {
+        "log": {
+            "404": {
+                "enabled": false,
+                "path": null
+            },
+            "403": {
+                "enabled": false,
+                "path": null
+            },
+            "500": {
+                "enabled": false,
+                "path": null
+            }
+        }
+    },
+    "upload": {
+        "app": {
+            "max_size": "10MB"
+        }
+    },
+    "framework": {
+        "api_url": null
+    },
+    "images": {
+        "resizing": {
+            "enabled": true,
+            "dir": null
+        }
+    },
+    "assets": {
+        "no_cache": "%env(dev)",
+        "preprocessing": {
+            "enabled": "%env(dev)",
+            "preprocessors": [
+                "stylus"
+            ]
+        }
+    },
+    "output": {
+        "icons": {
+            "format": "<i class=\"%s\"><\/i>"
+        }
+    },
+    "security": {
+        "salt": "ZX3kTnw#yx8RjtdEgBsvB943g85U2xp6",
+        "secrets": {
+            "pow": "zsEFk3jZh_5ebpjyJTbymhhx22NEE37pMd7Qrhg6vwJRvgfzzqsDJjgja8rd3nj7"
+        },
+        "passwords": {
+            "hash": {
+                "algorithm": "sha256",
+                "format": "{salt}:{password}"
+            }
+        }
+    }
+}
