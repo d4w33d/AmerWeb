@@ -23,20 +23,20 @@
         "dev": {
             "host": "localhost",
             "port": 3306,
-            "username": "yjgyymmzz",
-            "password": "dfgdfg",
-            "db_name": "yjgyymmzz"
+            "username": "amer",
+            "password": "2h2E2z6Nfk$4t48v",
+            "db_name": "amer"
         },
         "prod": {
             "host": "localhost",
             "port": 3306,
-            "username": null,
-            "password": null,
-            "db_name": null
+            "username": "w_amer",
+            "password": "sWVPp2$evH7UDxtZ",
+            "db_name": "w_amer"
         }
     },
     "deploy": {
-        "enabled": false,
+        "enabled": true,
         "log": true,
         "commands": {
             "pull": "\/usr\/bin\/git pull",
