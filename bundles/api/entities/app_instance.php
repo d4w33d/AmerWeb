@@ -22,7 +22,7 @@ class AppInstance extends Microbe_Entity
 
     public function generateSecretToken(): static
     {
-        $this->setSecretToken(password(len: 128, useSpecials: false));
+        return $this->setSecretToken(password(len: 128, useSpecials: false));
     }
 
 }

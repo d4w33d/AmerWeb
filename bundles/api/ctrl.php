@@ -3,8 +3,7 @@
 api_route(
     path: 'apps/register',
     method: 'POST',
-    assertApp: false,
-    assertAppOwner: false,
+    skipAppCheck: true,
     callback: function(): void
     {
         if (!($uuid = get_app_instance_uuid_from_api_request())) json_error('missing_app_id', "Missing App ID");
