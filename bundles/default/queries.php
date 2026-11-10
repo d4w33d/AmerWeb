@@ -71,6 +71,6 @@ function add_map_element(
         'type'         => $type,
         'name'         => $name,
         'created_time' => $createdTime->format('Y-m-d H:i:s.v'),
-        'data'         => $data,
+        'data'         => json_encode($data),
     ]);
 }
