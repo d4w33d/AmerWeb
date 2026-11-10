@@ -29,7 +29,12 @@ function api_route(
     if ($method !== null && !is_http_method($method)) return;
     $path = rtrim(rtrim('/' . ($version ?: ''), '/') . '/' . trim($path, '/'), '/');
 
-    route($path, function() use ($callback)
+    route($path, function() use (
+        $assertApp,
+        $assertAppOwner,
+        $skipAppCheck,
+        $callback,
+    ): void
     {
         $appInstance = null;
 
