@@ -38,14 +38,14 @@ function get_map_by_app_instance_and_uuid(AppInstance $appInstance, string $uuid
 
 function clear_map_elements(Map $map): void
 {
-    ($qb = db('map_elements'))
+    ($qb = db('maps_elements'))
         ->where($qb->isEqual('id_map', $map->getId()))
         ->delete();
 }
 
 function get_next_map_element_position(Map $map): int
 {
-    $position = ($qb = db('map_elements'))
+    $position = ($qb = db('maps_elements'))
         ->select('position')
         ->where($qb->isEqual('id_map', $map->getId()))
         ->order('position', 'DESC')
@@ -64,7 +64,7 @@ function add_map_element(
     array             $data,
 ): void
 {
-    db('map_elements')->insert([
+    db('maps_elements')->insert([
         'id_map'       => $map->getId(),
         'position'     => get_next_map_element_position($map),
         'local_uuid'   => $localUuid,
