@@ -89,7 +89,7 @@ function sync_map_data(
             $createdTime = DateTimeImmutable::createFromFormat('U.u', sprintf('%.3F', $createTimeMillis / 1000));
             if ($createdTime < $validDateRange[0] || $createdTime > $validDateRange[1]) continue;
 
-            if (($elementData = process_map_element_data($type, $el)) === false) continue;
+            if (($elementData = process_map_element_data($type, $el)) === null) continue;
 
             $map->addElement(
                 localUuid:   $uuid,
@@ -183,7 +183,7 @@ function sanitize_map_element_door_type(mixed $doorType): ?string
     ]) ? $doorType : null;
 }
 
-function process_map_element_data(string $type, array $raw): array | false
+function process_map_element_data(string $type, array $raw): ?array
 {
     $data = [];
     switch ($type) {
