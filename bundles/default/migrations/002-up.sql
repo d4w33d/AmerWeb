@@ -9,7 +9,7 @@ CREATE TABLE maps (
     id_app_instance INTEGER UNSIGNED NOT NULL,
     local_uuid VARCHAR(255) NOT NULL,
 
-    slug VARCHAR(64) NOT NULL,
+    public_slug VARCHAR(64) NOT NULL,
 
     name VARCHAR(255),
     is_public BOOLEAN NOT NULL DEFAULT false,
