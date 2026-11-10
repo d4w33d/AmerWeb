@@ -35,3 +35,42 @@ function get_map_by_app_instance_and_uuid(AppInstance $appInstance, string $uuid
         ]));
     });
 }
+
+function clear_map_elements(Map $map): void
+{
+    ($qb = db('map_elements'))
+        ->where($qb->isEqual('id_map', $map->getId()))
+        ->delete();
+}
+
+function get_next_map_element_position(Map $map): int
+{
+    $position = ($qb = db('map_elements'))
+        ->select('position')
+        ->where($qb->isEqual('id_map', $map->getId()))
+        ->order('position', 'DESC')
+        ->limit(1)
+        ->value();
+
+    return $position === null ? 0 : (((int) $position) + 1);
+}
+
+function add_map_element(
+    Map               $map,
+    string            $localUuid,
+    string            $type,
+    ?string           $name,
+    DateTimeInterface $createdTime,
+    array             $data,
+): void
+{
+    db('map_elements')->insert([
+        'id_map'       => $map->getId(),
+        'position'     => get_next_map_element_position($map),
+        'local_uuid'   => $localUuid,
+        'type'         => $type,
+        'name'         => $name,
+        'created_time' => $createdTime,
+        'data'         => $data,
+    ]);
+}

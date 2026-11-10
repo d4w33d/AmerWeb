@@ -37,22 +37,27 @@ class Map extends Microbe_Entity
 
     public function clearElements(): static
     {
-        //
+        clear_map_elements($this);
+        return $this;
     }
 
-    /*
-
-    id_map INTEGER UNSIGNED NOT NULL,
-    position INTEGER UNSIGNED NOT NULL,
-
-    local_uuid VARCHAR(255) NOT NULL,
-    type VARCHAR(32) NOT NULL,
-
-    name VARCHAR(255),
-    created_time DATETIME(3),
-
-    data MEDIUMTEXT,
-
-    */
+    public function addElement(
+        string             $localUuid,
+        string             $type,
+        ?string            $name,
+        DateTimeInterface  $createdTime,
+        array              $data,
+    ): static
+    {
+        add_map_element(
+            map:         $this,
+            localUuid:   $localUuid,
+            type:        $type,
+            name:        $name,
+            createdTime: $createdTime,
+            data:        $data,
+        );
+        return $this;
+    }
 
 }

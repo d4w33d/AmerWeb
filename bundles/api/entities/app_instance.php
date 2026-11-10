@@ -26,9 +26,4 @@ class AppInstance extends Microbe_Entity
         return $this->setSecretToken(password(len: 128, useSpecials: false));
     }
 
-    public function syncMap(array $map): static
-    {
-        return $this;
-    }
-
 }
