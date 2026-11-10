@@ -20,11 +20,10 @@ api_route(
     method: 'POST',
     assertApp: true,
     assertAppOwner: true,
-    callback: function(AppInstance $appInstance): void
+    callback: function(AppInstance $appInstance, array $postedData): void
     {
 
-
-        var_dump($_POST);
+        var_dump($postedData);
 
         // get_posted('maps'); -> array of uuids
 
@@ -37,7 +36,7 @@ api_route(
     method: 'POST',
     assertApp: true,
     assertAppOwner: true,
-    callback: function(AppInstance $appInstance): void
+    callback: function(AppInstance $appInstance, array $postedData): void
     {
         // sync_map()
         // get_posted('map'); -> map data

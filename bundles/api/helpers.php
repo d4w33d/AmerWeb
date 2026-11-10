@@ -52,8 +52,12 @@ function api_route(
 
         if ($appInstance) $appInstance->setPingAt(db_now())->save();
 
+        $postedData = json_decode(file_get_contents( 'php://input' ), true);
+        if (!is_array($postedData)) $postedData = [];
+
         $args = array_merge([
-            $appInstance
+            $appInstance,
+            $postedData,
         ], func_get_args());
 
         $callback(...$args);
