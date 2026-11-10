@@ -187,6 +187,7 @@ function process_map_element_data(string $type, array $raw): ?array
 {
     $data = [];
 
+var_dump($type);
 var_dump($raw);echo "\n\n\n";
 
     switch ($type) {
