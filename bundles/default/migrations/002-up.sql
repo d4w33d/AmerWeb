@@ -33,6 +33,6 @@ CREATE TABLE maps_elements (
 
     data MEDIUMTEXT,
 
-    PRIMARY KEY (id_app, position),
+    PRIMARY KEY (id_map, position),
     FOREIGN KEY (id_map) REFERENCES maps(id) ON DELETE CASCADE
 );
