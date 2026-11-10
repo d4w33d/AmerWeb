@@ -1,2 +1,4 @@
 
 ENV
+data/logs/*
+data/sessions/*
