@@ -27,7 +27,7 @@ function api_route(
     register_domain_route_filter(cfg('@api.domain_name'));
 
     if ($method !== null && !is_http_method($method)) return;
-    $path = rtrim('/api/' . $version . '/' . trim($path, '/'), '/');
+    $path = rtrim('/' . $version . '/' . trim($path, '/'), '/');
 
     route($path, function() use ($callback)
     {
