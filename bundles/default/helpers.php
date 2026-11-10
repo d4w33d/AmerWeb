@@ -186,6 +186,9 @@ function sanitize_map_element_door_type(mixed $doorType): ?string
 function process_map_element_data(string $type, array $raw): ?array
 {
     $data = [];
+
+var_dump($raw);echo "\n\n\n";
+
     switch ($type) {
 
         case 'Route':
