@@ -28,10 +28,10 @@
 // |                                                                           |
 // | ------------------------------------------------------------------------- |
 // |                                                                           |
-// |                         -{# 3d2f6108073ba0f6 #}-                          |
-// | -{# ffca2c435e857bf612f7331f252912bbc05fc48d9d6bdc2a58a09f0bdb4541ea #}-  |
-// |                               -{# 2740 #}-                                |
-// |                     -{# 2026-11-09T12:08:49+00:00 #}-                     |
+// |                         -{# 75408641d3bbb63d #}-                          |
+// | -{# 67d2f766aa5f978a6f5539f090b120d8dc5bd706664cb1262010d138de3b8029 #}-  |
+// |                               -{# 2741 #}-                                |
+// |                     -{# 2026-11-10T16:54:42+00:00 #}-                     |
 // |                                                                           |
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -23032,6 +23032,18 @@ function is_uid(mixed $value, int | array $len = 64): bool
     if (!is_string($value)) return false;
     if (!preg_match('/^[a-f0-9]+$/', $value)) return false;
     return in_array(strlen($value), is_array($len) ? $len : [ $len ]);
+}
+
+/**
+ * <USER>
+ * Check if some value is a valid UUID string.
+ * @param  mixed   $uuid Probably a UUID.
+ * @return boolean       Is $uuid a UUID or not.
+ */
+function is_uuid(mixed $uuid): bool
+{
+    if (!is_string($uuid)) return false;
+    return preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $uuid);
 }
 
 /**

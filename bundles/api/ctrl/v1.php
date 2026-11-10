@@ -7,7 +7,7 @@ api_route(
     callback: function(): void
     {
         if (!($uuid = get_app_instance_uuid_from_api_request())) json_error('missing_app_id', "Missing App ID");
-        if (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $uuid)) json_error('invalid_app_id_format', "Invalid App ID Format");
+        if (!is_uuid($uuid)) json_error('invalid_app_id_format', "Invalid App ID Format");
 
         $appInstance = get_or_create_app_instance($uuid);
 
@@ -22,10 +22,18 @@ api_route(
     assertAppOwner: true,
     callback: function(AppInstance $appInstance, array $postedData): void
     {
+        if (isset($postedData['maps']) && is_array($postedData['maps'])) {
+            foreach ($postedData['maps'] as $mapInfo) {
+                if (!($uuid = $mapInfo['id']) || !is_uuid($uuid)) continue;
+                $isPublic = ($mapInfo['isPublic'] ?? false) === true;
 
-        var_dump($postedData);
-
-        // get_posted('maps'); -> array of uuids
+                if (!($map = get_map_by_app_instance_and_uuid($appInstance, $uuid))) continue;
+                if ($map->isPublic() !== $isPublic) {
+                    if (!$isPublic && $appInstance->getIdUser() === null) $map->delete();
+                    else $map->setIsPublic($isPublic)->save();
+                }
+            }
+        }
 
         api_success();
     }
