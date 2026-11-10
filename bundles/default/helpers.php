@@ -54,7 +54,7 @@ function sync_map_data(AppInstance $appInstance, string $uuid, array $postedData
 {
     if (!($postedData['isPublic'] ?? false) && $appInstance->getIdUser() === null) return null;
 
-    $map = get_or_create_map($uuid);
+    $map = get_or_create_map($appInstance, $uuid);
 
     $map
         ->setName(is_string($postedData['name'] ?? null) ? trim($postedData['name']) ?: null : null)
