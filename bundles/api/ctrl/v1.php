@@ -46,3 +46,21 @@ api_route(
         ]);
     }
 );
+
+api_route(
+    path: '/',
+    callback: function(): void
+    {
+        json_success([ 'version' => 1 ]);
+    },
+);
+
+api_route(
+    path: '/<anything*>',
+    callback: function(): void
+    {
+        json_error('not_found', code: 404);
+    },
+);
+
+route('/api', function(): void { redirect('https://amernav.com'); });
