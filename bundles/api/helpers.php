@@ -50,6 +50,8 @@ function api_route(
             }
         }
 
+        if ($appInstance) $appInstance->setPingAt(db_now())->save();
+
         $args = array_merge([
             $appInstance
         ], func_get_args());
