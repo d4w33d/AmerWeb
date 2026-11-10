@@ -22,6 +22,10 @@ api_route(
     assertAppOwner: true,
     callback: function(AppInstance $appInstance): void
     {
+
+
+        var_dump($_POST);
+
         // get_posted('maps'); -> array of uuids
 
         api_success();
@@ -35,7 +39,10 @@ api_route(
     assertAppOwner: true,
     callback: function(AppInstance $appInstance): void
     {
+        // sync_map()
         // get_posted('map'); -> map data
+
+        // get_map_by_app_instance_and_uuid
 
         api_success([
             'public_url' => 'https://amernav.com/m/abcdefg',
@@ -47,27 +54,6 @@ api_route(
     }
 );
 
-api_route(
-    path: '/',
-    callback: function(): void
-    {
-        json_success([ 'version' => 1 ]);
-    },
-);
-
-api_route(
-    path: '/<anything*>',
-    callback: function(): void
-    {
-        json_error('not_found', code: 404);
-    },
-);
-
-api_route(
-    path: '/',
-    version: null,
-    callback: function(): void
-    {
-        redirect('https://amernav.com');
-    },
-);
+api_route(path: '/', callback: function(): void { json_success([ 'version' => 1 ]); });
+api_route(path: '/<anything*>', callback: function(): void { json_error('not_found', code: 404); });
+api_route(path: '/', version: null, callback: function(): void { redirect('https://amernav.com'); });

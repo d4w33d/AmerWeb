@@ -1,2 +1,4 @@
 
-DROP TABLE IF EXISTS app_instances;
+DROP TABLE IF EXISTS users_logins;
+DROP TABLE IF EXISTS users_tokens;
+DROP TABLE IF EXISTS users;

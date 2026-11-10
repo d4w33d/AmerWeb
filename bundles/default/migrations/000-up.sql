@@ -1,16 +1,42 @@
 
--- $comment: App Instances
+-- $comment: Users
 
-CREATE TABLE app_instances (
+CREATE TABLE users (
     id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     uid VARCHAR(64) NOT NULL,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
-    ping_at DATETIME,
-    local_uuid VARCHAR(255) NOT NULL,
-    secret_token VARCHAR(128),
+    email VARCHAR(255) NOT NULL,
+    email_validated_at DATETIME,
+    phone VARCHAR(15),
+    phone_validated_at DATETIME,
+    password VARCHAR(64),
+    password_updated_at DATETIME,
+    firstname VARCHAR(255),
+    lastname VARCHAR(255),
+    INDEX users_u_idx (uid),
+    INDEX users_e_idx (email)
+);
 
-    INDEX app_instances_uid_idx (uid),
-    INDEX app_instances_local_uuid_idx (local_uuid),
-    INDEX app_instances_secret_token_idx (secret_token)
+CREATE TABLE users_tokens (
+    token VARCHAR(128) PRIMARY KEY,
+    id_user INTEGER UNSIGNED NOT NULL,
+    type VARCHAR(32) NOT NULL,
+    created_at DATETIME NOT NULL,
+    expires_at DATETIME,
+    meta_data TEXT,
+    INDEX users_tokens_tt_idx (token, type),
+    FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE users_logins (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    id_user INTEGER UNSIGNED NOT NULL,
+    login_at DATETIME NOT NULL,
+    token VARCHAR(128),
+    ip_address VARCHAR(45),
+    url VARCHAR(255),
+    referer VARCHAR(255),
+    INDEX users_logins_iu_la_idx (id_user, login_at),
+    FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
 );

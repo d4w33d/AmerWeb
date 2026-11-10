@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class AppInstance extends Microbe_Entity
 {
@@ -13,6 +13,7 @@ class AppInstance extends Microbe_Entity
         [ 'name' => 'uid',          'type' => Microbe_Entity::T_STRING   ],
         [ 'name' => 'created_at',   'type' => Microbe_Entity::T_DATETIME ],
         [ 'name' => 'updated_at',   'type' => Microbe_Entity::T_DATETIME ],
+        [ 'name' => 'id_user',      'type' => Microbe_Entity::T_INT      ],
         [ 'name' => 'ping_at',      'type' => Microbe_Entity::T_DATETIME ],
         [ 'name' => 'local_uuid',   'type' => Microbe_Entity::T_STRING   ],
         [ 'name' => 'secret_token', 'type' => Microbe_Entity::T_STRING   ],
@@ -23,6 +24,11 @@ class AppInstance extends Microbe_Entity
     public function generateSecretToken(): static
     {
         return $this->setSecretToken(password(len: 128, useSpecials: false));
+    }
+
+    public function syncMap(array $map): static
+    {
+        return $this;
     }
 
 }
