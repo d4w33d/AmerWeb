@@ -70,7 +70,7 @@ function add_map_element(
         'local_uuid'   => $localUuid,
         'type'         => $type,
         'name'         => $name,
-        'created_time' => $createdTime,
+        'created_time' => $createdTime->format('Y-m-d H:i:s.v'),
         'data'         => $data,
     ]);
 }
