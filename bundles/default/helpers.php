@@ -219,7 +219,7 @@ var_dump($raw);echo "\n\n\n";
             if (($data['point'] = sanitize_map_element_point($raw['point'] ?? null)) === null) return null;
             if (($data['text'] = sanitize_map_element_single_line_text($raw['text'] ?? null)) === null) return null;
             $data['extraText'] = sanitize_map_element_text($raw['extraText'] ?? null) ?: '';
-            break;
+            return $data;
 
         case 'Door':
             if (($data['p1'] = sanitize_map_element_point($raw['p1'] ?? null)) === null) return null;
