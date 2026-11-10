@@ -1,0 +1,8 @@
+127.0.0.1 -- [2026-11-10T08:33:04+00:00] -- "fatal: detected dubious ownership in repository at '/mnt/DATA/projects/dev/work/business/pointless/apps/amer/www'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /mnt/DATA/projects/dev/work/business/pointless/apps/amer/www"
+127.0.0.1 -- [2026-11-10T08:34:30+00:00] -- "fatal: detected dubious ownership in repository at '/mnt/DATA/projects/dev/work/business/pointless/apps/amer/www'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /mnt/DATA/projects/dev/work/business/pointless/apps/amer/www"

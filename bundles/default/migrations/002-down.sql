@@ -1,0 +1,3 @@
+
+DROP TABLE IF EXISTS maps_elements;
+DROP TABLE IF EXISTS maps;
