@@ -28,6 +28,13 @@ class Map extends Microbe_Entity
         return $this->setPublicSlug(generate_map_public_slug());
     }
 
+    public function getPublicUrl(): ?string
+    {
+        if (!$this->isPublic()) return null;
+        if (!($slug = $this->getPublicSlug())) return null;
+        return get_public_url("/m/$slug");
+    }
+
     public function clearElements(): static
     {
         //

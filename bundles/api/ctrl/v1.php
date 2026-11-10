@@ -24,14 +24,9 @@ api_route(
     {
         if (isset($postedData['maps']) && is_array($postedData['maps'])) {
             foreach ($postedData['maps'] as $mapInfo) {
-                if (!($uuid = $mapInfo['id']) || !is_uuid($uuid)) continue;
+                if (!is_uuid($uuid = ($mapInfo['id'] ?? null))) continue;
                 $isPublic = ($mapInfo['isPublic'] ?? false) === true;
-
-                if (!($map = get_map_by_app_instance_and_uuid($appInstance, $uuid))) continue;
-                if ($map->isPublic() !== $isPublic) {
-                    if (!$isPublic && $appInstance->getIdUser() === null) $map->delete();
-                    else $map->setIsPublic($isPublic)->save();
-                }
+                sync_map_public_mode($appInstance, $uuid, $isPublic);
             }
         }
 
@@ -46,17 +41,12 @@ api_route(
     assertAppOwner: true,
     callback: function(AppInstance $appInstance, array $postedData): void
     {
-        // sync_map()
-        // get_posted('map'); -> map data
-
-        // get_map_by_app_instance_and_uuid
+        if (!is_uuid($uuid = ($postedData['id'] ?? null))) api_error('invalid_map_id');
+        if (!($map = sync_map_data($appInstance, $uuid, $postedData))) api_error('unable_to_create_map');
 
         api_success([
-            'public_url' => 'https://amernav.com/m/abcdefg',
-            'stats' => [
-                'nb_visits' => 123,
-                'nb_added' => 123,
-            ],
+            'public_url' => $map->getPublicUrl(),
+            'stats' => [ 'nb_visits' => 0, 'nb_added' => 0 ],
         ]);
     }
 );

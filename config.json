@@ -1,7 +1,8 @@
 {
     "app": {
         "name": "Amer",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "domain_name": "amernav.com"
     },
     "api": {
         "domain_name": "api.amernav.com"
