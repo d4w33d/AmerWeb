@@ -63,4 +63,11 @@ api_route(
     },
 );
 
-route('/api', function(): void { redirect('https://amernav.com'); });
+api_route(
+    path: '/',
+    version: null,
+    callback: function(): void
+    {
+        redirect('https://amernav.com');
+    },
+);

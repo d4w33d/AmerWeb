@@ -19,7 +19,7 @@ function api_route(
     bool           $assertApp      = false,
     bool           $assertAppOwner = false,
     bool           $skipAppCheck = false,
-    int            $version        = 1,
+    ?int           $version        = 1,
     ?Closure       $callback       = null,
 ): void
 {
@@ -27,7 +27,7 @@ function api_route(
     register_domain_route_filter(cfg('@api.domain_name'));
 
     if ($method !== null && !is_http_method($method)) return;
-    $path = rtrim('/' . $version . '/' . trim($path, '/'), '/');
+    $path = rtrim(rtrim('/' . ($version ?: ''), '/') . '/' . trim($path, '/'), '/');
 
     route($path, function() use ($callback)
     {
