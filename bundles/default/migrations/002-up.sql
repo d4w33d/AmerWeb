@@ -16,7 +16,7 @@ CREATE TABLE maps (
     is_default BOOLEAN NOT NULL DEFAULT false,
 
     INDEX maps_iai_lu_idx (id_app_instance, local_uuid),
-    INDEX maps_s_idx (slug),
+    INDEX maps_s_idx (public_slug),
 
     FOREIGN KEY (id_app_instance) REFERENCES app_instances(id) ON DELETE CASCADE
 );
