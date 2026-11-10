@@ -40,7 +40,7 @@ function api_route(
 
         if ($assertAppOwner) $assertApp = true;
 
-        if ($skipAppCheck) {
+        if (!$skipAppCheck) {
             $uuid = get_app_instance_uuid_from_api_request();
             if ($assertApp && !$uuid) api_error('missing_app_id', "Missing App ID", code: 403);
             if ($uuid && !($appInstance = get_app_instance_by_uuid($uuid))) api_error('invalid_app_id', "Invalid App ID", code: 403);
