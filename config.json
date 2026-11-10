@@ -3,6 +3,9 @@
         "name": "Amer",
         "version": "1.0.0"
     },
+    "api": {
+        "domain_name": "api.amernav.com"
+    },
     "backup": {
         "target": "data\/backups",
         "scopes": [

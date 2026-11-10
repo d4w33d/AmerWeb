@@ -38,7 +38,7 @@ api_route(
         // get_posted('map'); -> map data
 
         api_success([
-            'public_url' => '',
+            'public_url' => 'https://amernav.com/m/abcdefg',
             'stats' => [
                 'nb_visits' => 123,
                 'nb_added' => 123,

@@ -23,6 +23,9 @@ function api_route(
     ?Closure       $callback       = null,
 ): void
 {
+    clear_route_filters();
+    register_domain_route_filter(cfg('@api.domain_name'));
+
     if ($method !== null && !is_http_method($method)) return;
     $path = rtrim('/api/' . $version . '/' . trim($path, '/'), '/');
 
@@ -48,6 +51,8 @@ function api_route(
 
         $callback(...$args);
     });
+
+    clear_route_filters();
 }
 
 function api_error(
