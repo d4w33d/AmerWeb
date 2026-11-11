@@ -10,6 +10,19 @@ function updateUrl() {
     history.pushState({}, "", url + (qs.length > 0 ? "?" + qs.join("&") : ""));
 }
 
+function updateMapStatus() {
+    let { lng, lat } = map.getCenter();
+    const zoom = map.getZoom();
+
+    s.c = roundCoordinate(lat) + "," + roundCoordinate(lng);
+
+    if (!(o.waypoint && zoom == o.defaults.waypointZoom) || !(!o.waypoint && zoom === o.defaults.zoom)) {
+        s.z = roundZoom(zoom);
+    } else if (s.hasOwnProperty("z")) {
+        delete s.z;
+    }
+}
+
 function roundCoordinate(coord) { return Math.round(coord * 1000000) / 1000000; }
 function roundZoom(zoom) { return Math.round(zoom * 100) / 100; }
 
@@ -141,17 +154,12 @@ const map = new maplibregl.Map({
 map.on("load", () => {
 
     map.on("dragend", (e) => {
-        let { lng, lat } = map.getCenter();
-        const zoom = map.getZoom();
+        updateMapStatus();
+        updateUrl();
+    });
 
-        s.c = roundCoordinate(lat) + "," + roundCoordinate(lng);
-
-        if (!(o.waypoint && zoom == o.defaults.waypointZoom) || !(!o.waypoint && zoom === o.defaults.zoom)) {
-            s.z = roundZoom(zoom);
-        } else if (s.hasOwnProperty("z")) {
-            delete s.z;
-        }
-
+    map.on("zoomend", (e) => {
+        updateMapStatus();
         updateUrl();
     });
 

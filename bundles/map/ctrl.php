@@ -29,7 +29,7 @@ route([
         'defaults' => [
             'center' => (object) [ 'lat' => 20.033, 'lon' => -72.784 ],
             'zoom' => 8,
-            'waypointZoom' => 14,
+            'waypointZoom' => 10,
         ],
 
         'queried' => [
