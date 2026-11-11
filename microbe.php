@@ -28,10 +28,10 @@
 // |                                                                           |
 // | ------------------------------------------------------------------------- |
 // |                                                                           |
-// |                         -{# 115c7934d136748b #}-                          |
-// | -{# d4458eb0a396c02abf9a9608014d0513958b65e58332fe09298d847efaffdaf1 #}-  |
-// |                               -{# 2742 #}-                                |
-// |                     -{# 2026-11-10T17:00:20+00:00 #}-                     |
+// |                         -{# 1277bdec590d1555 #}-                          |
+// | -{# 519ab222ea94126ad96ffb653f159cc13b0128869ffa1e03c0d5eb2aa18a60ac #}-  |
+// |                               -{# 2746 #}-                                |
+// |                     -{# 2026-11-11T11:28:52+00:00 #}-                     |
 // |                                                                           |
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -14778,6 +14778,19 @@ function get_user_agent(): ?string
 
 /**
  * <USER>
+ * Returns current's request query string.
+ * @param  bool    $questionMark Include question mark if query
+ *                               string is not empty.
+ * @return string                Query string with or without question mark.
+ */
+function get_query_params(bool $questionMark = true): string
+{
+    $qs = preg_match('/^[^?]*\?(.+)$/', get_request_url(), $m) ? $m[1] : '';
+    return ($questionMark && $qs ? '?' : '') . $qs;
+}
+
+/**
+ * <USER>
  * Get the variable given in argument from the POST or GET data.
  * If the argument is an array of variable names, an associative array
  * will be returned with all the corresponding values from POST or GET.
@@ -18713,6 +18726,72 @@ listen('init', function(): void
 
 // =============================================================================
 // ---{ Functions }-------------------------------------------------------------
+
+/**
+ * <USER>
+ * Parse some string to find degrees/minutes/seconds coordinate.
+ * @param  string     $str String to parse.
+ * @return array|null      An array with two elements: 'lat'|'lon'
+ *                         and float coordinate. Null if unable to parse.
+ */
+function parse_dms_coordinate(string $str): ?array
+{
+    $re = '/^\s*([NSEWO])?\s*([+\-−])?\s*'              // Hemisphere as prefix / Sign
+        . '(\d+(?:[.,]\d+)?)\s*[°º˚]?\s*'               // Degrees
+        . '(?:(\d+(?:[.,]\d+)?)\s*[\'′’]?\s*)?'         // Optional minutes
+        . '(?:(\d+(?:[.,]\d+)?)\s*(?:\'\'|["″”])?\s*)?' // Optional seconds
+        . '([NSEWO])?\s*$/iu';                          // Hemisphere as suffix
+
+    if (!preg_match($re, $str, $m)) return null;
+
+    $before = strtoupper($m[1] ?? '');
+    $after  = strtoupper($m[6] ?? '');
+
+    if (($before !== '' && $after !== '') || ($before . $after) === '') return null;
+    $hemi = $before . $after;
+
+    $num = fn(string $s): float => $s === '' ? 0.0 : (float) str_replace(',', '.', $s);
+
+    $decimal = $num($m[3])
+             + $num($m[4] ?? '') / 60
+             + $num($m[5] ?? '') / 3600;
+
+    $negative = in_array($m[2] ?? '', [ '-', '−' ], true) || in_array($hemi, [ 'S', 'W', 'O' ], true);
+    if ($negative) $decimal = -1 * abs($decimal);
+
+    $type = in_array($hemi, [ 'N', 'S' ], true) ? 'lat' : 'lon';
+    if (abs($decimal) > ($type === 'lat' ? 90 : 180)) return null;
+    return [ $type, $decimal ];
+}
+
+/**
+ * <USER>
+ * Parse, as flex as possible, a query containing coordinates (decimal or DMS).
+ * @param  string      $q Query to parse.
+ * @return object|null    An object with properties 'lat' and 'lon' (decimal).
+ *                        If unable to parse, null.
+ */
+function parse_coordinate_query(string $q): ?object
+{
+    if (!preg_match('/^(?<one>[^,;]+)[,;]+(?<two>[^,;]+)$/i', trim($q), $m)) return null;
+    $c = (object) [ 'lat' => null, 'lon' => null ];
+
+    $processColumn = function(string $k) use (&$c, $m): void
+    {
+        $hemi = $k === 'one' ? 'lat' : 'lon';
+        if (is_numeric($m[$k])) {
+            $c->$hemi = (float) $m[$k];
+            if ($c->$hemi >= -180 && $c->$hemi <= -180) $c->$hemi = null;
+        } else if ($coord = parse_dms_coordinate($m[$k])) {
+            [ $type, $val ] = $coord;
+            $c->$type = $val;
+        }
+    };
+
+    $processColumn('one');
+    $processColumn('two');
+    return $c->lat !== null && $c->lon != null ? $c : null;
+}
 
 /**
  * <USER>

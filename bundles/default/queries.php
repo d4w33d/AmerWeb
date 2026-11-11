@@ -36,6 +36,16 @@ function get_map_by_app_instance_and_uuid(AppInstance $appInstance, string $uuid
     });
 }
 
+function get_map_elements(Map $map): array
+{
+    return ($qb = db('maps_elements'))
+        ->select('*')
+        ->where($qb->isEqual('id_map', $map->getId()))
+        ->order('position', 'ASC')
+        ->limit(999)
+        ->all();
+}
+
 function clear_map_elements(Map $map): void
 {
     ($qb = db('maps_elements'))

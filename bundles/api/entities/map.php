@@ -35,6 +35,11 @@ class Map extends Microbe_Entity
         return get_public_url("/m/$slug");
     }
 
+    public function getElements(): array
+    {
+        return get_map_elements($this);
+    }
+
     public function clearElements(): static
     {
         clear_map_elements($this);
@@ -58,6 +63,28 @@ class Map extends Microbe_Entity
             data:        $data,
         );
         return $this;
+    }
+
+    public function toPublic(?Closure $modifier = null): array
+    {
+        $data = [
+            'created_at' => $this->getCreatedAt('Y-m-d H:i:s'),
+            'updated_at' => $this->getUpdatedAt('Y-m-d H:i:s'),
+            'name'       => $this->getName(),
+            'elements'   => array_values(array_filter(array_map(function(object $el): ?array
+            {
+                if (!($data = json_decode($el->data, true))) return null;
+                return [
+                    'type'        => $el->type,
+                    'name'        => $el->name,
+                    'create_time' => $el->created_time,
+                    'data'        => $data,
+                ];
+            }, $this->getElements()))),
+        ];
+
+        if ($modifier) $data = call_user_func($modifier, $data);
+        return $data;
     }
 
 }
