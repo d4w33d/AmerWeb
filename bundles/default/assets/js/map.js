@@ -90,7 +90,7 @@ const anchors = [
 ];
 
 const s = {};
-if (o.waypoint) s.q = o.waypoint.lat + "," + o.waypoint.lon;
+if (o.waypoint) s.q = o.waypoint.coordinate.lat + "," + o.waypoint.coordinate.lon;
 if (o.queried.center) s.c = o.queried.center.lat + "," + o.queried.center.lon;
 if (o.queried.zoom) s.z = o.queried.zoom;
 
