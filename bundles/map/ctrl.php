@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-register_domain_route_filter(is_env('dev') ? 'amernav.local' : cfg('@domain_name'));
+register_domain_route_filter(is_env('dev') ? 'amernav.local' : cfg('@app.domain_name'));
 
 route([
     '/m',
