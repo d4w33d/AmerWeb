@@ -51,6 +51,20 @@ api_route(
     }
 );
 
+api_route(
+    path: 'maps/<mapSlug>',
+    method: 'GET',
+    // assertApp: true,
+    // assertAppOwner: true,
+    callback: function(?AppInstance $appInstance, array $postedData, string $mapSlug): void
+    {
+        $map = get_map_by_slug($mapSlug) ?: api_error('invalid_map_reference');
+        if (!$map->isPublic()) throw_404('map_is_private');
+
+        api_success($map->toPublic(target: 'api'));
+    }
+);
+
 api_route(path: '/', callback: function(): void { json_success([ 'version' => 1 ]); });
 api_route(path: '/<anything*>', callback: function(): void { json_error('not_found', code: 404); });
 api_route(path: '/', version: null, callback: function(): void { redirect('https://amernav.com'); });

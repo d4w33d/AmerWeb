@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+register_domain_route_filter(is_env('dev') ? 'amernav.local' : cfg('@domain_name'));
+
 route([
     '/m',
     '/m/<mapSlug>',
@@ -15,7 +17,7 @@ route([
     if (!$mapSlug) $mapSlug = get_nullable_str('m');
 
     $map = $mapSlug ? get_map_by_slug($mapSlug) ?: throw_404("Invalid map reference") : null;
-    if ($map && !$map->isPublic()) throw_404("Map is private");
+    if ($map && !$map->isPublic()) throw_404('Map is private');
 
     $waypoint = null;
     if ($query) {
@@ -47,3 +49,5 @@ route([
         'opts' => $opts,
     ]);
 });
+
+clear_route_filters();

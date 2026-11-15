@@ -65,23 +65,15 @@ class Map extends Microbe_Entity
         return $this;
     }
 
-    public function toPublic(?Closure $modifier = null): array
+    public function toPublic(?Closure $modifier = null, string $target = 'web'): array
     {
-        $data = [
-            'created_at' => $this->getCreatedAt('Y-m-d H:i:s'),
-            'updated_at' => $this->getUpdatedAt('Y-m-d H:i:s'),
-            'name'       => $this->getName(),
-            'elements'   => array_values(array_filter(array_map(function(object $el): ?array
-            {
-                if (!($data = json_decode($el->data, true))) return null;
-                return [
-                    'type'        => $el->type,
-                    'name'        => $el->name,
-                    'create_time' => $el->created_time,
-                    'data'        => $data,
-                ];
-            }, $this->getElements()))),
-        ];
+        $data = format_map_to_public($this, $target);
+
+        $data['elements'] = array_values(array_filter(array_map(function(object $el) use ($target): ?array
+        {
+            if (!($data = json_decode($el->data, true))) return null;
+            return format_map_element_to_public($this, $target, $el, $data);
+        }, $this->getElements())));
 
         if ($modifier) $data = call_user_func($modifier, $data);
         return $data;

@@ -24,7 +24,7 @@ function api_route(
 ): void
 {
     clear_route_filters();
-    register_domain_route_filter(cfg('@api.domain_name'));
+    register_domain_route_filter(is_env('dev') ? 'api.amernav.local' : cfg('@api.domain_name'));
 
     if ($method !== null && !is_http_method($method)) return;
     $path = rtrim(rtrim('/' . ($version ?: ''), '/') . '/' . trim($path, '/'), '/');
@@ -75,10 +75,10 @@ function api_error(
 {
     if (is_string($errorMessage)) $errorMessage = [ 'message' => $errorMessage ];
     $data = array_merge($errorMessage ?: [], $data);
-    json_error($errorCode, $data, code: $code);
+    json_error($errorCode, $data, code: $code, pretty: true);
 }
 
 function api_success(array $data = []): void
 {
-    json_success($data);
+    json_success($data, pretty: true);
 }

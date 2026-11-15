@@ -92,7 +92,7 @@ function sync_map_data(
             if (($elementData = process_map_element_data($type, $el)) === null) continue;
 
             $map->addElement(
-                localUuid:   $uuid,
+                localUuid:   $el['id'],
                 type:        $type,
                 name:        $name,
                 createdTime: $createdTime,
@@ -187,9 +187,6 @@ function process_map_element_data(string $type, array $raw): ?array
 {
     $data = [];
 
-var_dump($type);
-var_dump($raw);echo "\n\n\n";
-
     switch ($type) {
 
         case 'Route':
@@ -230,4 +227,88 @@ var_dump($raw);echo "\n\n\n";
     }
 
     return null;
+}
+
+function format_map_element_point(mixed $point): ?array
+{
+    if (!is_array($point)) return null;
+
+    $pt = [
+        'latitude' => $point['lat'] ?? null,
+        'longitude' => $point['lon'] ?? null,
+    ];
+
+    if ($pt['latitude'] === null || $pt['longitude'] === null) return null;
+    return $pt;
+}
+
+function format_map_element_points(mixed $points): array
+{
+    if (!is_array($points)) return [];
+    return array_values(array_filter(array_map('format_map_element_point', $points)));
+}
+
+function format_map_to_public(Map $map, string $target): array
+{
+    return match ($target) {
+        'web' => [
+            'created_at' => $map->getCreatedAt('Y-m-d H:i:s'),
+            'updated_at' => $map->getUpdatedAt('Y-m-d H:i:s'),
+            'name'       => $map->getName(),
+            'public_url' => $map->getPublicUrl(),
+        ],
+        'api' => [
+            'id'        => $map->getPublicSlug(),
+            'name'      => $map->getName(),
+            'publicUrl' => $map->getPublicUrl(),
+        ],
+    };
+}
+
+function format_map_element_to_public(Map $map, string $target, object $el, mixed $data): array
+{
+    return match ($target) {
+        'web' => [
+            'type'         => $el->type,
+            'name'         => $el->name,
+            'created_time' => $el->created_time,
+            'data'         => $data,
+        ],
+        'api' => array_merge([
+            'type'        => $el->type,
+            'id'          => $map->getPublicSlug() . '-' . substr(sha1($el->local_uuid), 0, 13),
+            'name'        => $el->name ?: '',
+            'createdTime' => (int) (((float) (new DateTime($el->created_time))->format('U.v')) * 1000),
+        ], match ($el->type) {
+            'Route' => [
+                'points' => format_map_element_points($data['points']),
+            ],
+            'Waypoint' => [
+                'point'       => format_map_element_point($data['point']),
+                'symbolIcon'  => $data['symbolIcon'],
+                'symbolColor' => $data['symbolColor'],
+                'isMob'       => $data['isMob'],
+            ],
+            'MultiSegmentLine' => [
+                'points'      => format_map_element_points($data['points']),
+                'colorHex'    => $data['colorHex'],
+                'strokeWidth' => $data['strokeWidth'],
+            ],
+            'Polygon' => [
+                'points'      => format_map_element_points($data['points']),
+                'colorHex'    => $data['colorHex'],
+                'strokeWidth' => $data['strokeWidth'],
+            ],
+            'TextLabel' => [
+                'point'     => format_map_element_point($data['point']),
+                'text'      => $data['text'] ?: '',
+                'extraText' => $data['extraText'] ?: '',
+            ],
+            'Door' => [
+                'p1'       => format_map_element_point($data['p1']),
+                'p2'       => format_map_element_point($data['p2']),
+                'doorType' => $data['doorType'],
+            ],
+        }),
+    };
 }

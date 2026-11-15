@@ -7,6 +7,9 @@
     "api": {
         "domain_name": "api.amernav.com"
     },
+    "native_app": {
+        "domain_name": "app.amernav.com"
+    },
     "backup": {
         "target": "data\/backups",
         "scopes": [
