@@ -1,6 +1,8 @@
 
 c = #0077cc
 c_dark = #032b4f
+c_landing_bg = #d3cbc2
+c_map_bg = #e9f7ff
 
 f_main = "Exo", sans-serif
 f_mono = "Lilex", monospace
@@ -36,7 +38,7 @@ body
   height 100%
 
 body
-  background-color #d3cbc2
+  background-color c_landing_bg
   background-image url("../img/bg.jpg")
   background-repeat no-repeat
   background-position center bottom
@@ -45,7 +47,7 @@ body
   font-family f_main
 
   &.layout-map
-    background #e9f7ff
+    background black
 
 body, td, th
   font-size 1rem
@@ -128,6 +130,7 @@ body.layout-map
     #map
       position relative
       flex 1
+      background c_map_bg
       z-index 1
     #boxes
       display flex
