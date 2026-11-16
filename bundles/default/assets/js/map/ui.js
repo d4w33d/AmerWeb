@@ -57,7 +57,7 @@ export function onClick(el, click) {
 export function showMapInfo(map) {
     setText("#map-info-slug", map.slug);
     setText("#map-info-name", map.name);
-    onClick("#map-info-open", () => launchApp("maps/" + map.slug));
+    onClick("#map-info-open", () => launchApp("map/" + map.slug));
     showBox("map-info");
 }
 
