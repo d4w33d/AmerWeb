@@ -54,8 +54,6 @@ api_route(
 api_route(
     path: 'maps/<mapSlug>',
     method: 'GET',
-    // assertApp: true,
-    // assertAppOwner: true,
     callback: function(?AppInstance $appInstance, array $postedData, string $mapSlug): void
     {
         $map = get_map_by_slug($mapSlug) ?: api_error('invalid_map_reference');

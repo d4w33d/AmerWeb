@@ -10,7 +10,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Lilex:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.17.0/dist/maplibre-gl.css" />
 
@@ -22,9 +24,67 @@
 
   <body class="layout-map">
 
-    <div id="map"></div>
+    <div id="map-flow">
 
-    <script> const MapOptions = <?php echo json_encode($opts); ?>; </script>
+      <div id="map"></div>
+
+      <div id="boxes">
+
+        <div class="box off" id="map-info-box">
+          <div class="box-title">
+            <span class="material-symbols-outlined">map</span>
+            <strong><?php _t("Map"); ?></strong>
+            <code id="map-info-slug"></code>
+          </div>
+          <div class="box-body">
+            <p id="map-info-name"></p>
+          </div>
+          <div class="box-footer">
+            <div class="buttons">
+              <button type="button" id="map-info-open" class="primary">
+                <span class="material-symbols-outlined">launch</span>
+                <span><?php _t("Open in app"); ?></span>
+              </button>
+              <button type="button" id="map-info-share" class="stretch">
+                <span class="material-symbols-outlined">share</span>
+                <span class="sr"><?php _t("Share"); ?></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="box" id="launch-app-box">
+          <div class="box-body box-body-only">
+            <div class="buttons">
+              <button type="button" id="launch-app" class="primary">
+                <span class="material-symbols-outlined">launch</span>
+                <span><?php _t("Open app"); ?></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="logo">
+      <a href="<?php _url('/'); ?>">
+        <span class="sr"><?php _h_cfg('name'); ?></span>
+      </a>
+    </div>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "maplibregl": "https://unpkg.com/maplibre-gl@^6.17.0/dist/maplibre-gl.mjs",
+        "map/": "<?php _url('/assets/default/js/map/'); ?>",
+        "utils/": "<?php _url('/assets/default/js/utils/'); ?>"
+      }
+    }
+    </script>
+
+    <script> window.MapOptions = <?php echo json_encode($opts); ?>; </script>
     <script type="module" src="<?php _url('/bundles/default/assets/js/map.js'); ?>"></script>
 
   </body>

@@ -1,5 +1,23 @@
 
-c = #00ff99
+c = #0077cc
+c_dark = #032b4f
+
+f_main = "Exo", sans-serif
+f_mono = "Lilex", monospace
+
+sr()
+  position absolute
+  overflow hidden
+  left -10000px
+  top auto
+  width 1px
+  height 1px
+
+.sr
+  sr()
+
+.off
+  display none !important
 
 *
   box-sizing border-box
@@ -24,7 +42,7 @@ body
   background-position center bottom
   background-size cover
   color #222
-  font-family "Exo", sans-serif
+  font-family f_main
 
   &.layout-map
     background #e9f7ff
@@ -53,5 +71,111 @@ body, td, th
       font-size 1.75rem
       opacity .5
 
-#map
-  flex 1
+body.layout-map
+
+  .buttons
+    display flex
+    flex 1
+    margin 0 -5px
+
+  button
+    display flex
+    align-items center
+    justify-content center
+    flex 1
+    margin 0 5px
+    padding 10px
+    background #666
+    border none
+    border-radius 20px
+    color #eee
+    font-weight bold
+    &.stretch
+      flex 0 0 auto
+    .material-symbols-outlined:has(+ span:not(.sr))
+      margin-right .35em
+    &.primary
+      background c
+
+  .material-symbols-outlined
+    font-size 1.25em
+
+  #logo
+    position absolute
+    left 0
+    top 0
+    z-index 2
+    > a
+      display block
+      padding 10px
+      background black
+      border-radius 0 0 50% 0
+      box-shadow 0 0 20px alpha(black, .5)
+      &:before
+        display block
+        aspect-ratio 1
+        width 35px
+        background url("../img/logo.svg") no-repeat
+        background-size 100%
+        content ""
+
+  #map-flow
+    display flex
+    position relative
+    flex-direction column
+    flex 1
+    z-index 1
+    #map
+      position relative
+      flex 1
+      z-index 1
+    #boxes
+      display flex
+      flex-direction column
+      padding 15px
+      background black
+      box-shadow 0 0 20px alpha(black, .5)
+      z-index 2
+
+  .box
+    display flex
+    flex-direction column
+    background #333
+    border-radius 10px
+    color white
+    .box-title
+      display flex
+      align-items center
+      padding 20px
+      font-weight bold
+      opacity .5
+      > strong
+        margin 0 .5em
+      > code
+        margin 0 0 0 auto
+        font-family f_mono
+        font-style normal
+    .box-body
+      padding 0 20px
+      &.box-body-only
+        padding 20px
+      p
+        margin 0
+        padding 0
+    .box-footer
+      display flex
+      flex-direction column
+      padding 20px
+
+      // <div class="box" id="map-info">
+      //   <div class="box-title"><?php _t("Map"); ?></div>
+      //   <div class="box-body">
+      //     <dl>
+      //       <dt><?php _t("Reference"); ?></dt> <dd id="map-info-id">abcd12345</dd>
+      //       <dt><?php _t("Name"); ?></dt> <dd id="map-info-name">Unnamed Map</dd>
+      //     </dl>
+      //   </div>
+      //   <div class="box-footer">
+      //     <button type="button">Open in app</button>
+      //   </div>
+      // </div>

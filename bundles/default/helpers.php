@@ -252,9 +252,8 @@ function format_map_to_public(Map $map, string $target): array
 {
     return match ($target) {
         'web' => [
-            'created_at' => $map->getCreatedAt('Y-m-d H:i:s'),
-            'updated_at' => $map->getUpdatedAt('Y-m-d H:i:s'),
             'name'       => $map->getName(),
+            'slug'       => $map->getPublicSlug(),
             'public_url' => $map->getPublicUrl(),
         ],
         'api' => [
