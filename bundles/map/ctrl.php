@@ -22,7 +22,16 @@ route([
     $waypoint = null;
     if ($query) {
         if ($coord = parse_coordinate_query($query)) {
-            $waypoint = (object) [ 'coordinate' => $coord ];
+            $waypoint = (object) [
+                'coordinate' => $coord,
+                'name'       => get_nullable_str('wpn'),
+                'symbol'     => get_nullable_str('wps'),
+                'color'      => get_nullable_str('wpc'),
+            ];
+
+            if ($waypoint->name && strlen($waypoint->name) > 64) $waypoint->name = substr($waypoint->name, 0, 61) . '...';
+            if ($waypoint->symbol) $waypoint->symbol = get_marker_symbol($waypoint->symbol);
+            if ($waypoint->color) $waypoint->color = preg_match('/^[a-f0-9]{6}$/i', $waypoint->color) ? '#' . strtolower($waypoint->color) : null;
         }
     }
 
@@ -41,7 +50,7 @@ route([
 
         'query' => $q,
         'waypoint' => $waypoint,
-        'map_data' => $map ? $map->toPublic() : null,
+        'map' => $map ? $map->toPublic() : null,
 
     ];
 

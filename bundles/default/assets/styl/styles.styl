@@ -103,13 +103,13 @@ body
   background-position center bottom
   background-size cover
   color #222
-  font-family f_main
   user-select none
 
   &.layout-map
     background black
 
-body, td, th
+body, td, th, input, select, textarea, button
+  font-family f_main
   font-size 1rem
 
 #wrap
@@ -148,18 +148,6 @@ body, td, th
       opacity .5
 
 body.layout-map
-
-  .buttons
-    display flex
-    flex 1
-    margin 0 -5px
-
-  button
-    bt()
-    &.stretch
-      bt-stretch()
-    &.primary
-      bt-primary()
 
   .material-symbols-outlined
     font-size 1.25em
@@ -209,17 +197,19 @@ body.layout-map
         font-weight bold
         font-size .9rem
 
-  #logo
+  #header
+    display flex
     position absolute
+    align-items center
     left 0
+    right 0
     top 0
+    background black
+    box-shadow 0 0 20px alpha(black, .5)
     z-index 2
-    > a
+    > a#logo
       display block
       padding 10px
-      background black
-      border-radius 0 0 50% 0
-      box-shadow 0 0 20px alpha(black, .5)
       &:before
         display block
         aspect-ratio 1
@@ -227,6 +217,34 @@ body.layout-map
         background url("../img/logo.svg") no-repeat
         background-size 100%
         content ""
+    > div
+      flex 1
+      margin 0 10px 0 0
+      > form
+        display flex
+        margin 0
+        padding 0
+        border 1px solid #999
+        border-radius 10rem
+        > input[type="text"]
+          flex 1
+          margin 0
+          padding .5rem .75rem
+          background none
+          border none
+          outline none
+          color white
+          font-size .8rem
+        > button
+          display flex
+          align-items center
+          flex 0 0 auto
+          padding 0 .75rem
+          background none
+          border none
+          outline none
+          color white
+          opacity .5
 
   #map-flow
     display flex
@@ -256,7 +274,7 @@ body.layout-map
     .box-title
       display flex
       align-items center
-      padding 20px
+      padding 15px
       font-weight bold
       opacity .5
       > strong
@@ -266,16 +284,52 @@ body.layout-map
         font-family f_mono
         font-style normal
     .box-body
-      padding 0 20px
+      padding 0 15px
       &.box-body-only
-        padding 20px
+        padding 15px
       p
         margin 0
         padding 0
+        font-size .9rem
+        &.box-highlight
+          margin-bottom 10px
+          font-size 1.1rem
+          font-weight bold
+          &:last-child
+            margin-bottom 0
     .box-footer
       display flex
       flex-direction column
-      padding 20px
+      padding 15px
+
+    button
+      bt()
+      &.stretch
+        bt-stretch()
+      &.primary
+        bt-primary()
+
+    .buttons
+      display flex
+      flex 1
+      margin 0 -5px
+    .alt-buttons
+      display flex
+      flex 1
+      margin 0 0 1rem -1px
+      &:last-child
+        margin-bottom 0
+      button
+        margin 0 0 0 1px
+        padding 7px 5px
+        font-size .75rem
+        font-weight normal
+        &:not(:first-child)
+          border-top-left-radius 0
+          border-bottom-left-radius 0
+        &:not(:last-child)
+          border-top-right-radius 0
+          border-bottom-right-radius 0
 
 #console
   align-self start

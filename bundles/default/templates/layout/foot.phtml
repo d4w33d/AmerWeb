@@ -3,7 +3,21 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
     <?php include_asset('@default/js/app.js'); ?>
+
+    <?php if (is_asset_required('mapjs')): ?>
+      <script type="importmap">
+      {
+        "imports": {
+          "maplibregl": "https://unpkg.com/maplibre-gl@^6.17.0/dist/maplibre-gl.mjs",
+          "map/": "<?php _url('/assets/default/js/map/'); ?>",
+          "utils/": "<?php _url('/assets/default/js/utils/'); ?>"
+        }
+      }
+      </script>
+      <script type="module" src="<?php _url('/bundles/default/assets/js/map.js'); ?>"></script>
+    <?php endif ?>
 
   </body>
 </html>

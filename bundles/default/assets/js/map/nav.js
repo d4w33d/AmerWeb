@@ -51,10 +51,10 @@ export function initNavFromOptions(opts) {
     if (opts.queried.zoom) initialMapZoom = opts.queried.zoom;
     else if (opts.waypoint) initialMapZoom = opts.defaults.waypointZoom;
 
-    if (opts.map_data && opts.queried.center === null) {
+    if (opts.map && opts.queried.center === null) {
         const bnd = new geo.Boundary()
 
-        opts.map_data.elements.forEach((elem) => {
+        opts.map.elements.forEach((elem) => {
             elem.data.points?.forEach((point) => bnd.add(point));
             if (elem.data.hasOwnProperty("point")) bnd.add(elem.data.point);
             if (elem.data.hasOwnProperty("p1")) bnd.add(elem.data.p1);

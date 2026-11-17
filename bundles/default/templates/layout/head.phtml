@@ -6,11 +6,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- <link rel="icon" type="image/svg+xml" href="<?php _url('/assets/default/img/favicon.png'); ?>"> -->
+    <link rel="icon" type="image/svg+xml" href="<?php _url('/assets/default/img/favicon.png'); ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Lilex:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <?php if (is_asset_required('maplibre')): ?>
+      <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.17.0/dist/maplibre-gl.css">
+    <?php endif; ?>
 
     <?php include_asset('@default/css/styles.css'); ?>
 
@@ -18,7 +24,7 @@
 
   </head>
 
-  <body>
+  <body class="<?php _esc($_body_class ?? 'layout-landing'); ?>">
 
     <div id="wrap">
       <div id="wrapper">

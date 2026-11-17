@@ -68,7 +68,59 @@ export function calculateBearing(p1, p2) {
 }
 
 export function formatDistance(distNM) {
-    return distNM < 1 ? `${(distNM * 1000).toFixed(0)}m` : `${distNM.toFixed(1)}NM`;
+    return distNM < 1 ? `${(distNM * 1000).toFixed(0)} m` : `${distNM.toFixed(1)} NM`;
+}
+
+export function formatLatitudeToDMS(latitude) {
+    const direction = latitude >= 0 ? "N" : "S";
+    const absLat = Math.abs(latitude);
+    const degrees = Math.floor(absLat);
+    const remainderMin = (absLat - degrees) * 60.0;
+    const minutes = Math.floor(remainderMin);
+    const seconds = (remainderMin - minutes) * 60.0;
+
+    const padMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = seconds.toFixed(2);
+
+    return `${direction} ${degrees}° ${padMinutes}' ${formattedSeconds}"`;
+}
+
+export function formatLongitudeToDMS(longitude) {
+    const direction = longitude >= 0 ? "E" : "W";
+    const absLon = Math.abs(longitude);
+    const degrees = Math.floor(absLon);
+    const remainderMin = (absLon - degrees) * 60.0;
+    const minutes = Math.floor(remainderMin);
+    const seconds = (remainderMin - minutes) * 60.0;
+
+    const padMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = seconds.toFixed(2);
+
+    return `${direction} ${degrees}° ${padMinutes}' ${formattedSeconds}"`;
+}
+
+export function calculatePolygonAreaSqNM(points) {
+    if (!points || points.length < 3) return 0.0;
+
+    const origin = points[0];
+    const refLat = origin.latitude;
+    const cosLat = Math.cos((refLat * Math.PI) / 180.0);
+
+    const cartesianPoints = points.map(pt => {
+        const dx = (pt.longitude - origin.longitude) * 60.0 * cosLat;
+        const dy = (pt.latitude - origin.latitude) * 60.0;
+        return { x: dx, y: dy };
+    });
+
+    let area = 0.0;
+    const n = cartesianPoints.length;
+    for (let i = 0; i < n; i++) {
+        const p1 = cartesianPoints[i];
+        const p2 = cartesianPoints[(i + 1) % n];
+        area += (p1.x * p2.y) - (p2.x * p1.y);
+    }
+
+    return Math.abs(area) / 2.0;
 }
 
 export class Boundary {

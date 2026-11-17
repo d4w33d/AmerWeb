@@ -47,23 +47,32 @@ ui.ready(() => {
             const id = e.id;
             if (map.hasImage(id)) return;
 
-            const m = /^(.+)_([0-9a-f]{6})$/.exec(id);
+            const m = /^(.+)_([0-9a-f]{6})$/i.exec(id);
             if (m) {
                 mapcore.loadMapImage({
                     id: id,
                     url: `/bundles/default/assets/img/map/markers/${m[1]}.svg`,
-                    color: id.startsWith("z_") ? null : ("#" + m[2]),
+                    color: id.startsWith("z_") ? null : ("#" + m[2].toLowerCase()),
                 });
             }
         });
 
-        if (opts.map_data) {
-            opts.map_data.elements.forEach((elem) => maprender.renderMapElement(elem.type, elem));
-            ui.showMapInfo(opts.map_data);
+        if (opts.map) {
+            opts.map.elements.forEach((elem) => maprender.renderMapElement(elem.type, elem));
+            ui.showMapInfo(opts.map);
         }
 
         if (opts.waypoint) {
-            mapcore.addMarker({ coordinate: opts.waypoint.coordinate });
+            maprender.renderMapElement("Waypoint", {
+                data: {
+                    point: opts.waypoint.coordinate,
+                    symbolIcon: opts.waypoint.symbol,
+                    symbolColor: opts.waypoint.color,
+                    name: opts.waypoint.name,
+                }
+            });
+
+            ui.showWaypointInfo(opts.waypoint);
         }
 
     });

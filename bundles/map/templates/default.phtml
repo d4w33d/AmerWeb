@@ -1,99 +1,103 @@
-<!doctype html>
-<html lang="en">
+<?php require_asset('maplibre'); ?>
+<?php require_asset('mapjs'); ?>
+<?php layout('layout/head', [ '_body_class' => 'layout-map' ]); ?>
 
-  <head>
+<div id="map-flow">
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <div id="map"></div>
 
-    <!-- <link rel="icon" type="image/svg+xml" href="<?php _url('/assets/default/img/favicon.png'); ?>"> -->
+  <div id="boxes">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Lilex:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.17.0/dist/maplibre-gl.css" />
-
-    <?php include_asset('@default/css/styles.css'); ?>
-
-    <title> <?php echo cfg('name') . ' &nbsp;&bull;&nbsp; ' . esc($page_title ?? t("Nautical Charts")); ?> </title>
-
-  </head>
-
-  <body class="layout-map">
-
-    <div id="map-flow">
-
-      <div id="map"></div>
-
-      <div id="boxes">
-
-        <div class="box off" id="map-info-box">
-          <div class="box-title">
-            <span class="material-symbols-outlined">map</span>
-            <strong><?php _t("Map"); ?></strong>
-            <code id="map-info-slug"></code>
-          </div>
-          <div class="box-body">
-            <p id="map-info-name"></p>
-          </div>
-          <div class="box-footer">
-            <div class="buttons">
-              <button type="button" id="map-info-open" class="primary">
-                <span class="material-symbols-outlined">launch</span>
-                <span><?php _t("Open in app"); ?></span>
-              </button>
-              <button type="button" id="map-info-share" class="stretch">
-                <span class="material-symbols-outlined">share</span>
-                <span class="sr"><?php _t("Share"); ?></span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="box" id="launch-app-box">
-          <div class="box-body box-body-only">
-            <div class="buttons">
-              <button type="button" id="launch-app" class="primary">
-                <span class="material-symbols-outlined">launch</span>
-                <span><?php _t("Open app"); ?></span>
-              </button>
-            </div>
-          </div>
-        </div>
-
+    <div class="box off" id="map-info-box">
+      <div class="box-title">
+        <span class="material-symbols-outlined">map</span>
+        <strong><?php _t("Map"); ?></strong>
+        <code id="map-info-slug"></code>
       </div>
-
-    </div>
-
-    <div id="logo">
-      <a href="<?php _url('/'); ?>">
-        <span class="sr"><?php _h_cfg('name'); ?></span>
-      </a>
-    </div>
-
-    <div id="loading">
-      <div>
-        <div class="loader"><div></div><div></div><div></div><div></div></div>
-        <p><?php _t("Loading map&hellip;"); ?></p>
+      <div class="box-body">
+        <p class="box-highlight" id="map-info-name"></p>
+      </div>
+      <div class="box-footer">
+        <div class="buttons">
+          <button type="button" id="map-info-open" class="primary">
+            <span class="material-symbols-outlined">launch</span>
+            <span><?php _t("Open in app"); ?></span>
+          </button>
+          <button type="button" id="map-info-share" class="stretch">
+            <span class="material-symbols-outlined">share</span>
+            <span class="sr"><?php _t("Share"); ?></span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <script type="importmap">
-    {
-      "imports": {
-        "maplibregl": "https://unpkg.com/maplibre-gl@^6.17.0/dist/maplibre-gl.mjs",
-        "map/": "<?php _url('/assets/default/js/map/'); ?>",
-        "utils/": "<?php _url('/assets/default/js/utils/'); ?>"
-      }
-    }
-    </script>
+    <div class="box off" id="waypoint-info-box">
+      <div class="box-title">
+        <span class="material-symbols-outlined">location_on</span>
+        <strong><?php _t("Waypoint"); ?></strong>
+        <code id="waypoint-info-coordinate-dec"></code>
+      </div>
+      <div class="box-body">
+        <p class="box-highlight" id="waypoint-info-name"></p>
+        <p id="waypoint-info-coordinate-lat-dms"></p>
+        <p id="waypoint-info-coordinate-lon-dms"></p>
+      </div>
+      <div class="box-footer">
+        <div class="alt-buttons">
+          <button type="button" id="waypoint-info-third-party-openseamap"> <span><?php _t("OpenSeaMap"); ?></span> </button>
+          <button type="button" id="waypoint-info-third-party-openstreetmap"> <span><?php _t("OpenStreetMap"); ?></span> </button>
+          <button type="button" id="waypoint-info-third-party-googlemaps"> <span><?php _t("Google Maps"); ?></span> </button>
+        </div>
+        <div class="buttons">
+          <button type="button" id="waypoint-info-open" class="primary">
+            <span class="material-symbols-outlined">launch</span>
+            <span><?php _t("Open in app"); ?></span>
+          </button>
+          <button type="button" id="waypoint-info-share" class="stretch">
+            <span class="material-symbols-outlined">share</span>
+            <span class="sr"><?php _t("Share"); ?></span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-    <script> window.MapOptions = <?php echo json_encode($opts); ?>; </script>
-    <script type="module" src="<?php _url('/bundles/default/assets/js/map.js'); ?>"></script>
+    <div class="box" id="launch-app-box">
+      <div class="box-body box-body-only">
+        <div class="buttons">
+          <button type="button" id="launch-app" class="primary">
+            <span class="material-symbols-outlined">launch</span>
+            <span><?php _t("Open app"); ?></span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-  </body>
+  </div>
 
-</html>
+</div>
+
+<header id="header">
+  <a href="<?php _url('/'); ?>" id="logo">
+    <span class="sr"><?php _h_cfg('name'); ?></span>
+  </a>
+  <div>
+    <form>
+      <input type="text" placeholder="Search map or location">
+      <button type="submit">
+        <span class="material-symbols-outlined">search</span>
+        <span class="sr"><?php _t("Search"); ?></span>
+      </button>
+    </form>
+  </div>
+</header>
+
+<div id="loading">
+  <div>
+    <div class="loader"><div></div><div></div><div></div><div></div></div>
+    <p><?php _t("Loading map&hellip;"); ?></p>
+  </div>
+</div>
+
+<script> window.MapOptions = <?php echo json_encode($opts); ?>; </script>
+
+<?php layout('layout/foot'); ?>

@@ -311,3 +311,13 @@ function format_map_element_to_public(Map $map, string $target, object $el, mixe
         }),
     };
 }
+
+function get_marker_symbol(string $symbol): ?object
+{
+    if (preg_match('/[^a-z0-9_]/', $symbol)) return null;
+    $path = get_path('bundles', 'default', 'assets', 'img', 'map', 'markers', $symbol . '.svg');
+    return is_file($path) ? (object) [
+        'path' => $path,
+        'url'  => path_to_url($path),
+    ] : null;
+}
