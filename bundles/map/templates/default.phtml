@@ -81,8 +81,8 @@
     <span class="sr"><?php _h_cfg('name'); ?></span>
   </a>
   <div>
-    <form>
-      <input type="text" placeholder="Search map or location">
+    <form action="<?php _url('/m'); ?>" method="get">
+      <input type="text" name="q" placeholder="Search map or location">
       <button type="submit">
         <span class="material-symbols-outlined">search</span>
         <span class="sr"><?php _t("Search"); ?></span>
