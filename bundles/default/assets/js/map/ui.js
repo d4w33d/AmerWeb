@@ -57,6 +57,12 @@ export function init() {
         if (currentMap) launchApp("map/" + currentMap.slug);
     });
 
+    onClick("#waypoint-info-open", () => {
+        if (currentWaypoint) launchApp("waypoint/"
+            + encodeURIComponent(currentWaypoint.coordinate.lat) + "/"
+            + encodeURIComponent(currentWaypoint.coordinate.lon));
+    });
+
     onClick("#waypoint-info-third-party-openseamap", () => {
         if (currentWaypoint) openWaypointInThirdPartyMap("openseamap", currentWaypoint);
     });
