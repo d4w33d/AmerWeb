@@ -7,6 +7,10 @@ c_map_bg = #e9f7ff
 f_main = "Exo", sans-serif
 f_mono = "Lilex", monospace
 
+::selection
+  background c
+  color white
+
 sr()
   position absolute
   overflow hidden
@@ -14,6 +18,61 @@ sr()
   top auto
   width 1px
   height 1px
+
+loader(color = white, size = 40px, thickness = 3px)
+  display inline-block
+  position relative
+  width size
+  height @width
+  color color
+  &
+  div
+    box-sizing border-box
+  div
+    display block
+    position absolute
+    margin thickness
+    width size - (2 * thickness)
+    height @width
+    border thickness solid currentColor
+    border-radius 50%
+    animation loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite
+    border-color currentColor transparent transparent transparent
+    &:nth-child(1)
+      animation-delay -0.45s
+    &:nth-child(2)
+      animation-delay -0.3s
+    &:nth-child(3)
+      animation-delay -0.15s
+
+@keyframes loader {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+bt()
+  display flex
+  align-items center
+  justify-content center
+  flex 1
+  margin 0 5px
+  padding 10px
+  background #666
+  border none
+  border-radius 20px
+  color #eee
+  text-decoration none
+  font-weight bold
+  .material-symbols-outlined:has(+ span:not(.sr))
+    margin-right .35em
+
+bt-stretch()
+  flex 0 0 auto
+bt-primary()
+  background c
+
+.loader
+  loader()
 
 .sr
   sr()
@@ -82,26 +141,59 @@ body.layout-map
     margin 0 -5px
 
   button
-    display flex
-    align-items center
-    justify-content center
-    flex 1
-    margin 0 5px
-    padding 10px
-    background #666
-    border none
-    border-radius 20px
-    color #eee
-    font-weight bold
+    bt()
     &.stretch
-      flex 0 0 auto
-    .material-symbols-outlined:has(+ span:not(.sr))
-      margin-right .35em
+      bt-stretch()
     &.primary
-      background c
+      bt-primary()
 
   .material-symbols-outlined
     font-size 1.25em
+
+  #loading
+    display flex
+    position absolute
+    align-items center
+    justify-content center
+    overflow hidden
+    left 0
+    right 0
+    top 0
+    bottom 0
+    z-index 100
+    &:before
+    &:after
+      display block
+      position absolute
+      content ""
+    &:before
+      left -20px
+      right -20px
+      top -20px
+      bottom -20px
+      background url("../img/bg-sm.jpg") no-repeat center center c_landing_bg
+      background-size cover
+      filter: blur(10px);
+      z-index 1
+    &:after
+      left 0
+      right 0
+      top 0
+      bottom 0
+      background alpha(black, .8)
+      z-index 2
+    > div
+      position relative
+      text-align center
+      z-index 3
+      > .loader
+        //
+      > p
+        margin 10px 0 0 0
+        padding 0
+        color white
+        font-weight bold
+        font-size .9rem
 
   #logo
     position absolute
@@ -171,15 +263,58 @@ body.layout-map
       flex-direction column
       padding 20px
 
-      // <div class="box" id="map-info">
-      //   <div class="box-title"><?php _t("Map"); ?></div>
-      //   <div class="box-body">
-      //     <dl>
-      //       <dt><?php _t("Reference"); ?></dt> <dd id="map-info-id">abcd12345</dd>
-      //       <dt><?php _t("Name"); ?></dt> <dd id="map-info-name">Unnamed Map</dd>
-      //     </dl>
-      //   </div>
-      //   <div class="box-footer">
-      //     <button type="button">Open in app</button>
-      //   </div>
-      // </div>
+#console
+  align-self start
+  flex 1
+  padding 3rem
+  background alpha(black, .75)
+  color white
+  ul
+  ol
+  li
+    margin 0
+    padding 0
+    list-style none
+  ul
+    margin 1rem
+    > li
+      display flex
+      > strong
+        flex 0 0 5.5rem
+      > em
+        flex 1
+        font-family f_mono
+        font-style normal
+        user-select all
+        cursor pointer
+  ol.console-app-instances
+    > li.console-app-instance
+      margin 0 0 1rem 0
+      border 1px solid white
+      border-radius 10px
+      > div
+        > strong
+          display block
+          padding 1rem
+          border-bottom 1px solid white
+          text-align center
+      > ol.console-maps
+        padding 1rem
+        border-top 1px solid white
+        > li.console-map
+          border 1px solid alpha(white, .35)
+          border-radius 8px
+          > div
+            > strong
+              display block
+              padding 1rem
+              border-bottom 1px solid alpha(white, .35)
+              text-align center
+            > div
+              &.console-map-actions
+                display flex
+                padding 1rem .5rem
+                border-top 1px solid alpha(white, .35)
+                > a
+                  bt()
+                  bt-primary()

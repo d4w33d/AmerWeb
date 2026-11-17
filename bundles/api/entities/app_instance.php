@@ -26,4 +26,14 @@ class AppInstance extends Microbe_Entity
         return $this->setSecretToken(password(len: 128, useSpecials: false));
     }
 
+    public function getMaps(int $offset = 0, ?int $limit = null): array
+    {
+        return get_maps(appInstance: $this, offset: $offset, limit: $limit);
+    }
+
+    public function countMaps(): int
+    {
+        return count_maps(appInstance: $this);
+    }
+
 }

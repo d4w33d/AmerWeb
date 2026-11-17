@@ -1,0 +1,46 @@
+<?php layout('layout/head'); ?>
+
+<div id="console">
+  <ol class="console-app-instances">
+    <?php foreach ($app_instances as $app_instance): ?>
+      <li class="console-app-instance">
+        <div>
+          <strong>App Instance</strong>
+          <ul>
+            <li><strong>UID</strong> <em><?php _esc($app_instance->getUid()); ?></em></li>
+            <li><strong>UUID</strong> <em><?php _esc($app_instance->getLocalUuid()); ?></em></li>
+          </ul>
+        </div>
+        <ol class="console-maps">
+          <?php foreach ($app_instance->getMaps() as $map): ?>
+            <li class="console-map">
+              <div>
+                <strong>Map</strong>
+                <div>
+                  <ul>
+                    <li><strong>UID</strong> <em><?php _esc($map->getUid()); ?></em></li>
+                    <li><strong>UUID</strong> <em><?php _esc($map->getLocalUuid()); ?></em></li>
+                    <li><strong>Slug</strong> <em><?php _esc($map->getPublicSlug()); ?></em></li>
+                  </ul>
+                  <ul>
+                    <li><strong>Created</strong> <em><?php _esc($map->getCreatedAt()); ?></em></li>
+                    <li><strong>Modified</strong> <em><?php _esc($map->getUpdatedAt()); ?></em></li>
+                  </ul>
+                  <ul>
+                    <li><strong>Name</strong> <em><?php _esc($map->getName() ?: t("Unnamed Map")); ?></em></li>
+                    <li><strong>URL</strong> <em><?php _esc($map->getPublicUrl()); ?></em></li>
+                  </ul>
+                </div>
+                <div class="console-map-actions">
+                  <a href="<?php _esc($map->getPublicUrl()); ?>" target="_blank">View map</a>
+                </div>
+              </div>
+            </li>
+          <?php endforeach; ?>
+        </ol>
+      </li>
+    <?php endforeach; ?>
+  </ol>
+</div>
+
+<?php layout('layout/foot'); ?>

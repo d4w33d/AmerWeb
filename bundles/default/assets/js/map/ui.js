@@ -40,6 +40,14 @@ export function init() {
     });
 }
 
+export function hideLoading() {
+    hide("#loading");
+}
+
+export function showLoading() {
+    show("#loading");
+}
+
 export function showBox(boxName) {
     show("#" + boxName + "-box");
     show("#boxes");

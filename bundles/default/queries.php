@@ -36,6 +36,35 @@ function get_map_by_app_instance_and_uuid(AppInstance $appInstance, string $uuid
     });
 }
 
+function get_maps(
+    ?AppInstance $appInstance = null,
+    int $offset = 0,
+    ?int $limit = null,
+    bool $countOnly = false,
+): array | int
+{
+    $modifier = function(Microbe_Query_Builder $qb) use ($appInstance, $offset, $limit): void
+    {
+        if ($appInstance) $qb->where($qb->isEqual('id_app_instance', $appInstance->getId()));
+        if ($limit) $qb->offset($offset)->limit($limit);
+        $qb
+            ->clearOrder()
+            ->order('updated_at', 'DESC')
+            ->order('created_at', 'DESC')
+            ->order('id', 'DESC');
+    };
+
+    return $countOnly ? Map::countAll($modifier) : Map::fetchAll($modifier);
+}
+
+function count_maps(?AppInstance $appInstance = null): int
+{
+    return get_maps(
+        appInstance: $appInstance,
+        countOnly: true,
+    );
+}
+
 function get_map_elements(Map $map): array
 {
     return ($qb = db('maps_elements'))

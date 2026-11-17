@@ -21,6 +21,8 @@ ui.ready(() => {
 
     map.on("load", () => {
 
+        ui.hideLoading();
+
         mapcore.initAnchors([
             "polygon",
             "multi-segment-line",
