@@ -1,12 +1,12 @@
 
 export function createTextBadgeImage(text, drawingColor, flipArrow = false) {
-    const fontSize = 12;
+    const fontSize = 9;
     const font = "bold " + fontSize + "px sans-serif";
-    const paddingH = 10;
-    const paddingV = 7;
-    const height = 25;
-    const arrowWidth = 7;
-    const arrowH = 7;
+    const paddingH = 7;
+    const paddingV = 5;
+    const height = 20;
+    const arrowWidth = 5;
+    const arrowH = 5;
     const r = 5;
 
     const canvas = document.createElement('canvas');
@@ -64,15 +64,15 @@ export function createTextBadgeImage(text, drawingColor, flipArrow = false) {
 
     ctx.fillStyle = drawingColor;
     const textX = flipArrow ? arrowWidth + paddingH : paddingH;
-    ctx.fillText(text, textX, midY + 2);
+    ctx.fillText(text, textX, midY + 1);
 
     return ctx.getImageData(0, 0, totalWidth, height);
 }
 
 export function createLabelBitmapImage(text) {
-    const fontSize = 12;
-    const paddingH = 10;
-    const paddingV = 7;
+    const fontSize = 9;
+    const paddingH = 8;
+    const paddingV = 6;
     const font = "bold " + fontSize + "px sans-serif";
 
     const canvas = document.createElement('canvas');
