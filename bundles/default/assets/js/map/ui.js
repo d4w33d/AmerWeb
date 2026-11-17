@@ -58,7 +58,7 @@ export function init() {
     });
 
     onClick("#waypoint-info-open", () => {
-        if (currentWaypoint) launchApp("waypoint/"
+        if (currentWaypoint) launchApp("location/"
             + encodeURIComponent(currentWaypoint.coordinate.lat) + "/"
             + encodeURIComponent(currentWaypoint.coordinate.lon));
     });
